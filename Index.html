@@ -202,8 +202,8 @@
                         <button id="cancel-reply-btn" class="text-theme-secondary hover:text-red-500"><i class="fas fa-times"></i></button>
                     </div>
 
-                    <div id="emoji-sticker-picker" class="hidden grid grid-cols-8 gap-2 p-2 bg-theme-tertiary rounded-lg mb-2">
-                    </div>
+                    <div id="emoji-sticker-picker" class="hidden grid grid-cols-8 gap-2 p-2 bg-theme-tertiary rounded-lg mb-2 max-h-[300px] overflow-y-auto scrollbar-thin">
+</div>
                     <div class="flex items-center gap-3">
                         <button id="emoji-sticker-btn" class="p-2 icon-theme hover:text-blue-500 flex-shrink-0"><i class="fas fa-smile text-xl"></i></button>
                         <button id="giphy-btn" class="p-2 icon-theme hover:text-blue-500 flex-shrink-0"><i class="fas fa-images text-xl"></i></button>
@@ -652,14 +652,16 @@
 
         // Emoji and sticker
         function initEmojiStickerPicker() {
+        function initEmojiStickerPicker() {
             const picker = document.getElementById('emoji-sticker-picker');
             onSnapshot(doc(db, "siteSettings", "config"), (docSnap) => {
                 const stickers = docSnap.exists() ? docSnap.data().stickers || [] : [];
                 picker.innerHTML = '';
-                const defaultEmojis = ['😭', '🥲', '😋', '🤡', '👽', '👺', '👹', '💀', '👿', '😈', '☠️', '🥰', '😲', '☹️', '😏', '🖕', '😘', '😂', '🙂', '😓', '😔', '😚', '🥺', '😳', '🤨', '🧐', '🤣', '😂', '😁', '😀', '😃', '😉', '😗', '😙', '🥳', '🫠', '🙃', '🥹', '🤤', '😝', '😐', '😑', '🤫', '🤔', '🫡', '😱', '🙄', '🧐', '🫤', '😲', '🤯', '😰', '😕', '😖', '😫', '😩', '😣', '😵', '😵‍💫', '🫨', '🤢', '🤕', '😷', '😇', '😎', '🤓', '🌝', '🌚', '😺', '😸', '😹', '😻', '😼', '😽', '🙀', '😿', '😿', '😾', '🌜', '🌛', '🙊', '🙉', '🙈', '🔥', '❤️', '💘', '💝', '🩷', '💗', '💖', '💔', '❤️‍🩹', '❤️‍🔥', '💋', '♥️', '💟', '💕', '🫂', '🫀', '🫦', '👄', '👁️', '👀', '💪', '🤜', '🤛', '👎', '🫶', '🫴', '👍', '👋', '👊', '👌', '🫵', '✌️', '🤘', '🤟', '🤏', '👇', '👆', '☝️', '👈', '🙏', '🤝', '🖕', '🤦', '🤦🏼‍♀️', '💆🏼‍♀️', '🙎🏼‍♀️', '🙍🏼‍♀️', '🙇🏼‍♀️', '🧖🏼‍♀️', '🛀🏼', '👸🏼', '🕺🏼', '💑', '👩‍❤️‍💋‍👩', '👨‍❤️‍💋‍👨', '👩‍❤️‍👩', '👩🏼‍🍼', '🤰🏼', '💐', '🌺', '🥀', '🌹', '🌸', '🏵️', '🍃', '🍂', '🌱', '🌼', '🌱', '🌵', '🍀', '🌾', '🍄', '❄️', '⛄', '🌚', '🌝', '🌞', '🐼', '🦁', '🐯', '🐱', '🐸', '🐉', '🦕', '🦖', '🐩', '🦎', '🐕', '🐈', '🐕‍🦺', '🐈‍⬛', '🦮', '🐲', '🐃', '🐄', '🐑', '🐂', '🦬', '🦣', '🦥', '🐘', '🦛', '🦧', '🐒', '🐿️', '🐆', '🦍', '🪼', '🦑', '🐦‍🔥', '🦢', '🪿', '🐥', '🦃', '🪲', '🐚', '🐛', '🪼', '🦠', '🐞', '🐛', '🪳', '🌶️', '🍒', '🍊', '🍅', '🍍', '🍊', '🥑', '🍏', '🥒', '🫜', '🍞', '🫒', '🥜', '🍟', '🌭', '🍗', '🍟', '🧀', '🥐', '🥖', '🫕', '🧆', '🍣', '🥫', '🥨', '🍕', '🍘', '🥡', '🍘', '🍦', '🍢', '🍜', '🦞', '🍣', '🥡', '🍚', '🍱', '🍱', '🥮', '🥠', '🍡', '🍥', '🍘', '🍢', '🍨', '🍨', '🥧', '🍮', '🧁', '🍭', '🍬', '🫙', '🍿', '🧈', '🍫', '💍', '👑'];
-                defaultEmojis.forEach(emoji => {
+                
+                // आपके द्वारा प्रदान की गई EMOJI_LIST का उपयोग करें
+                EMOJI_LIST.forEach(emoji => {
                     const btn = document.createElement('button');
-                    btn.className = 'p-1 rounded-full hover:bg-blue-200 text-2xl';
+                    btn.className = 'p-1 rounded-full hover:bg-blue-200 text-2xl'; // यहाँ आप चाहें तो hover effect को हटा भी सकते हैं, या background-color को theme के अनुसार बदल सकते हैं
                     btn.textContent = emoji;
                     btn.addEventListener('click', () => {
                         document.getElementById('message-input').value += btn.textContent;
@@ -667,6 +669,7 @@
                     });
                     picker.appendChild(btn);
                 });
+                
                 stickers.forEach(sticker => {
                     const img = document.createElement('img');
                     img.src = sticker.url;
